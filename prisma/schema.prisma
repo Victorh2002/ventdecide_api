@@ -1,0 +1,92 @@
+// Define o gerador de cliente do Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Configura a conexão com o banco de dados
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// ===============================================
+// Tabela de Usuários (Profissionais de Saúde)
+// ===============================================
+model User {
+  id               Int      @id @default(autoincrement())
+  email            String   @unique
+  password         String
+  name             String
+  role             String   // ex: "medico", "fisioterapeuta"
+  professionalId   String   // ex: CRM, CREFITO
+  institution      String
+  gender           String?  // O '?' torna o campo opcional
+
+  // Relação: Um usuário pode ter VÁRIOS casos de estudo
+  caseStudies CaseStudy[]
+}
+
+
+// ===============================================
+// Tabela de Casos de Estudo
+// ===============================================
+model CaseStudy {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relação: Cada caso pertence a UM usuário
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+  // --- Tela: Identificação do Paciente ---
+  caseName           String
+  birthDate          DateTime?
+  gender             String?
+  principalDiagnosis String?
+  height             Float?
+  previousConditions String[]  // Array de strings para as condições
+  sedationBlocker    Boolean?
+
+  // --- Tela: Motivos da Intubação ---
+  intubationReasons  String[]  // Array de strings para os motivos
+
+  // --- Tela: Gasometria ---
+  // Dados brutos
+  ph                 Float?
+  paco2              Float?
+  pao2               Float?
+  hco3               Float?
+  be                 Float?
+  sao2               Float?
+  na                 Float? // Sódio
+  cl                 Float? // Cloro
+  fio2_gasometry     Float? // FiO2 no momento da gasometria
+  // Dados calculados (é bom salvar para não ter que recalcular sempre)
+  pao2Fio2Ratio      Float?
+  anionGap           Float?
+  acidBaseStatus     String?
+
+  // --- Tela: Parâmetros Ventilatórios ---
+  ventilationMode    String? // VCV, PCV, PSV
+  
+  // Parâmetros VCV
+  vt_vcv             Float? // Volume Corrente
+  flow_vcv           Float? // Fluxo
+  ti_vcv             Float? // Tempo Inspiratório
+  
+  // Parâmetros PCV
+  pip_pcv            Float? // Pressão Inspiratória
+  ti_pcv             Float? // Tempo Inspiratório
+  
+  // Parâmetros PSV
+  ps_psv             Float? // Pressão de Suporte
+  peep_psv           Float? // PEEP específica do modo PSV
+  
+  // Parâmetros Gerais
+  rr                 Float? // Frequência Respiratória
+  peep               Float?
+  fio2_ventilation   Float? // FiO2 nos parâmetros do ventilador
+  trigger            String?
+}
