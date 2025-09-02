@@ -47,7 +47,7 @@ const cadastrarUsuario = async (req, res) => {
     }
 };
 
-const todosUsuarios = async (req, res) => {
+const pesquisarTodosUsuarios = async (req, res) => {
     try {
         const users = await prisma.user.findMany();
         res.status(200).json(users);
@@ -57,6 +57,20 @@ const todosUsuarios = async (req, res) => {
     }
 };
 
+const pesquisarUsuario = async (req, res) => {
+    try {
+        const users = await prisma.user.findFirst({
+            where: {
+                id: parseInt(req.params.id)
+            }
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Erro ao consultar o usuário', error);
+        res.status(500).json({ error: 'Ocorreu um erro no servidor.' });
+    }
+};
+
 module.exports = {
-    cadastrarUsuario, todosUsuarios
+    cadastrarUsuario, pesquisarTodosUsuarios, pesquisarUsuario
 };
