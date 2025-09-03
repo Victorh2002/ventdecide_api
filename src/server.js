@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./user/user.routes');
+const caseStudyRoutes = require('./caseStudy/caseStudy.routes');
 
 const app = express();
 const PORT = 3000; 
@@ -11,6 +12,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/user', userRoutes);
+app.use('/api/caseStudy', caseStudyRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
