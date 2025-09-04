@@ -14,4 +14,12 @@ router.get("/", async (req, res) => {
     await caseController.pesquisarCasos(req, res);
 });
 
+router.put("/:id", async (req, res) => {
+    await caseController.atualizarCasos(req, res);
+});
+
+router.delete("/:id", async (req, res) => {
+    await caseController.deletarCasos(req, res);
+});
+
 module.exports = router;

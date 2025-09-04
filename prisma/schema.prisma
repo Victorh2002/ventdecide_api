@@ -32,9 +32,10 @@ model User {
 // Tabela de Casos de Estudo
 // ===============================================
 model CaseStudy {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 Int        @id @default(autoincrement())
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  deletedAt          DateTime?  
   caseName           String
   
   // Relação: Cada caso pertence a UM usuário
