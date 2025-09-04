@@ -1,5 +1,6 @@
 const prisma = require('../prismaClient');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const cadastrarUsuario = async (req, res) => {
     const { email, password, name, role, professionalId, institution, gender } = req.body;
@@ -47,6 +48,38 @@ const cadastrarUsuario = async (req, res) => {
     }
 };
 
+const loginUsuario = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            return res.status(401).json({ error: 'Credenciais inválidas.' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ error: 'Credenciais inválidas.' });
+        }
+
+        const payload = {
+            id: user.id,
+            email: user.email,
+        };
+
+        const token = jwt.sign(
+            payload, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1d' } 
+        );
+
+        res.json({ message: 'Login bem-sucedido!', token: token });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao fazer login' });
+    }
+};
+
 const pesquisarTodosUsuarios = async (req, res) => {
     try {
         const users = await prisma.user.findMany();
@@ -72,5 +105,5 @@ const pesquisarUsuario = async (req, res) => {
 };
 
 module.exports = {
-    cadastrarUsuario, pesquisarTodosUsuarios, pesquisarUsuario
+    cadastrarUsuario, pesquisarTodosUsuarios, pesquisarUsuario, loginUsuario
 };

@@ -3,13 +3,15 @@ const prisma = require('../prismaClient');
 const bcrypt = require('bcryptjs');
 
 const criarCaso = async (req, res) => {
-    const dadosDoFormulario = req.body; 
+    const dadosDoFormulario = req.body;
+    
+    idAutor = req.user.id;
 
     try {
         const novoCaso = await prisma.caseStudy.create({
             data: {
                 ...dadosDoFormulario, 
-                authorId: 1 
+                authorId: idAutor 
             }
         });
         res.status(201).json(novoCaso);
@@ -27,26 +29,15 @@ const criarCaso = async (req, res) => {
     }
 };
 
-const pesquisarTodosCasos = async (req, res) => {
-    try {
-        const casos = await prisma.caseStudy.findMany({
-            where: {
-                authorId: 1
-            }
-        });
-        res.status(200).json(casos);
-    } catch (error) {
-        console.error('Erro ao consultar todos os casos:', error);
-        res.status(500).json({ error: 'Ocorreu um erro no servidor.' });
-    }
-};
 
 const pesquisarCasos = async (req, res) => {
     const { caseName } = req.query;
 
+    idAutor = req.user.id;
+
     if (!caseName) {
         const todosOsCasos = await prisma.caseStudy.findMany({
-            where: { authorId: 1 }
+            where: { authorId: idAutor }
         });
         return res.json(todosOsCasos);
     }
@@ -54,7 +45,7 @@ const pesquisarCasos = async (req, res) => {
     try {
         const caso = await prisma.caseStudy.findFirst({
             where: {
-                authorId: 1,
+                authorId: idAutor,
                 caseName: caseName
             }
         });
