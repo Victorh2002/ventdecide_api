@@ -48,11 +48,13 @@ model CaseStudy {
   gender             String?
   principalDiagnosis String?
   height             Float?
-  previousConditions String[]  // Array de strings para as condições
+  previousConditions String[]  
+  otherConditions    String?
   sedationBlocker    Boolean?
 
   // --- Tela: Motivos da Intubação ---
-  intubationReasons  String[]  // Array de strings para os motivos
+  intubationReasons     String[]  
+  otherIntubationReason String?
 
   // --- Tela: Gasometria ---
   // Dados brutos
@@ -65,7 +67,6 @@ model CaseStudy {
   na                 Float? // Sódio
   cl                 Float? // Cloro
   fio2_gasometry     Float? // FiO2 no momento da gasometria
-  // Dados calculados (é bom salvar para não ter que recalcular sempre)
   pao2Fio2Ratio      Float?
   anionGap           Float?
   acidBaseStatus     String?
