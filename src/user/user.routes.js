@@ -12,6 +12,10 @@ router.post("/cadastro", async (req, res) => {
     return await userController.cadastrarUsuario(req, res);
 });
 
+router.post("/forgot-password", async (req, res) => {
+    return await userController.forgotPassword(req, res);
+});
+
 router.use(authMiddleware); 
 
 router.get("/", async (req, res) => {

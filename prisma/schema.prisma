@@ -23,6 +23,9 @@ model User {
   institution      String?
   gender           String?  // O '?' torna o campo opcional
 
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
+
   // Relação: Um usuário pode ter VÁRIOS casos de estudo
   caseStudies CaseStudy[]
 }

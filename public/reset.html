@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 40px; }
+    </style>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+
+            if (token) {
+                window.location.href = `ventdecide://reset-password/${token}`;
+            }
+        };
+    </script>
+</head>
+<body>
+    <h2>Redirecionando para o aplicativo VentDecide...</h2>
+    <p>Se o aplicativo não abrir automaticamente, verifique se ele está instalado em seu dispositivo.</p>
+</body>
+</html>

@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const userRoutes = require('./user/user.routes');
 const caseStudyRoutes = require('./caseStudy/caseStudy.routes');
 
 const app = express();
 const PORT = 3000; 
+
+app.use(express.static('public'));
 
 app.use(express.json());
 
