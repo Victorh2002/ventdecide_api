@@ -16,6 +16,10 @@ router.post("/forgot-password", async (req, res) => {
     return await userController.forgotPassword(req, res);
 });
 
+router.post("/reset-password", async (req, res) => {
+    return await userController.resetPassword(req, res);
+});
+
 router.use(authMiddleware); 
 
 router.get("/", async (req, res) => {

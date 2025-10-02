@@ -170,10 +170,56 @@ const forgotPassword = async (req, res) => {
     }
 };
 
+const resetPassword = async (req, res) => {
+    const { password, token } = req.body;
+
+    const hashedToken = crypto
+            .createHash('sha256')
+            .update(token)
+            .digest('hex');
+
+    try {
+        const user = await prisma.user.findUnique({ where: { passwordResetToken: hashedToken } });
+
+        if (!user) {
+            return res.status(400).json({ error: 'Link de recuperação de senha expirado. Gere um novo' });
+        }
+
+        if (user.passwordResetExpires < Date()) {
+            await prisma.user.update({ 
+                where: { id: user.id }, 
+                data: {
+                    passwordResetToken: null,
+                    passwordResetExpires: null
+                } 
+            });
+            res.status(400).json({ error: 'Link de recuperação de senha expirado. Gere um novo' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        await prisma.user.update({ 
+            where: { id: user.id }, 
+            data: {
+                password: hashedPassword,
+                passwordResetToken: null,
+                passwordResetExpires: null
+            } 
+        });
+
+        return res.status(200).json({ message: 'Senha alterada com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao resetar senha:', error);
+        res.status(500).json({ error: 'Ocorreu um erro no servidor.' });
+    }
+};
+
 module.exports = {
     cadastrarUsuario,
     pesquisarTodosUsuarios,
     pesquisarUsuario,
     loginUsuario,
-    forgotPassword, 
+    forgotPassword,
+    resetPassword 
 };
