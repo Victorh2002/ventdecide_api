@@ -71,7 +71,9 @@ model CaseStudy {
   cl                 Float? // Cloro
   fio2_gasometry     Float? // FiO2 no momento da gasometria
   pao2Fio2Ratio      Float?
+  albumin            Float?
   anionGap           Float?
+  anionGapCorrected  Float?
   acidBaseStatus     String?
 
   // --- Tela: Parâmetros Ventilatórios ---

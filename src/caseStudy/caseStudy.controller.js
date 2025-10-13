@@ -62,7 +62,6 @@ const pesquisarCasos = async (req, res) => {
 };
 
 const atualizarCasos = async (req, res) => {
-    const dadosDoFormulario = req.body;
     const {
         caseName,
         patientIdentifier,
@@ -85,7 +84,9 @@ const atualizarCasos = async (req, res) => {
         cl,
         fio2_gasometry,
         pao2Fio2Ratio,
+        albumin,
         anionGap,
+        anionGapCorrected,
         acidBaseStatus,
         ventilationMode,
         vt_vcv,
@@ -123,7 +124,9 @@ const atualizarCasos = async (req, res) => {
         cl,
         fio2_gasometry,
         pao2Fio2Ratio,
+        albumin,
         anionGap,
+        anionGapCorrected,
         acidBaseStatus,
         ventilationMode,
         vt_vcv,
