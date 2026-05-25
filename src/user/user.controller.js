@@ -51,12 +51,18 @@ const cadastrarUsuario = async (req, res) => {
 };
 
 const loginUsuario = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, admin } = req.body;
 
     try {
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
             return res.status(401).json({ error: 'Credenciais inválidas.' });
+        }
+
+        if (admin) {
+            if (user.admin !== true) {
+                return res.status(401).json({ error: 'Usuário não admin.' });
+            }
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
