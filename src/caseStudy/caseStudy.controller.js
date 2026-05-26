@@ -61,6 +61,16 @@ const pesquisarCasos = async (req, res) => {
     }
 };
 
+const pesquisarTodos = async (req, res) => {
+    try {
+        const caseStudies = await prisma.caseStudy.findMany();
+        res.status(200).json(caseStudies);
+    } catch (error) {
+        console.error('Erro ao consultar todos os casos de estudo:', error);
+        res.status(500).json({ error: 'Ocorreu um erro no servidor.' });
+    }
+};
+
 const atualizarCasos = async (req, res) => {
     const {
         caseName,
@@ -192,5 +202,5 @@ const deletarCasos = async (req, res) => {
 };
 
 module.exports = {
-    criarCaso, pesquisarCasos, atualizarCasos, deletarCasos
+    criarCaso, pesquisarCasos, atualizarCasos, deletarCasos, pesquisarTodos
 };

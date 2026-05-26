@@ -14,6 +14,10 @@ router.get("/", async (req, res) => {
     await caseController.pesquisarCasos(req, res);
 });
 
+router.get("/todos", async (req, res) => {
+    await caseController.pesquisarTodos(req, res);
+});
+
 router.put("/:id", async (req, res) => {
     await caseController.atualizarCasos(req, res);
 });

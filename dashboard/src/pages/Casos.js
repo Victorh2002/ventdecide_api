@@ -3,13 +3,13 @@ import { AuthContext } from '../contexts/AuthContext';
 import './App.css';
 import axios from 'axios';
 
-function Usuarios() {
+function Casos() {
     const [users, setUsers] = useState(null);
 
     const { logout } = useContext(AuthContext);
 
-    const fetchAllUsers = async () => {
-        const response = await axios.get('https://electric-amoeba-light.ngrok-free.app/api/user/todos');
+    const fetchAllCasos = async () => {
+        const response = await axios.get('https://electric-amoeba-light.ngrok-free.app/api/caseStudy/todos');
 
         return response;
     }
@@ -21,17 +21,17 @@ function Usuarios() {
 
     useEffect(() => {
         const fetch = async () => {
-            const response = await fetchAllUsers();
+            const response = await fetchAllCasos();
             setUsers(response.data);
             console.log(response.data);
         }
         fetch();
-        localStorage.setItem('lastPage', '/usuarios');
+        localStorage.setItem('lastPage', '/casos');
     }, []);
 
     return (
         <div>
-            <h1>Lista de Usuários</h1>
+            <h1>Lista de Casos de Estudo</h1>
             <button onClick={handleLogout}>Logout</button>
             <table className='table'>
                 <thead>
@@ -66,4 +66,4 @@ function Usuarios() {
     );
 }
 
-export default Usuarios;
+export default Casos;

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from "../contexts/AuthContext";
 import './App.css';
 //import axios from 'axios';
@@ -22,6 +23,23 @@ const App = () => {
             navigate("/usuarios");
         }
     }
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            try {
+                const decodedToken = jwtDecode(storedToken);
+                // Verifica se o token não expirou
+                if (decodedToken.exp * 1000 > Date.now()) {
+                    const lastPage = localStorage.getItem('lastPage') || '/usuarios';
+                    navigate(lastPage);
+                }
+            } catch (error) {
+                console.log('Token inválido:', error);
+                localStorage.removeItem('token');
+            }
+        }
+    }, []);
 
     return (
         <div>
