@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from "react-router";
+import { HashRouter, Route, Routes } from "react-router";
 import './index.css';
 import App from './pages/App';
 import Usuarios from './pages/Usuarios';
@@ -18,7 +18,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <AuthProvider>
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     {routes.map((route) => (
                         <Route 
@@ -28,7 +28,7 @@ root.render(
                         />
                     ))}
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </AuthProvider>
     </React.StrictMode>
 );

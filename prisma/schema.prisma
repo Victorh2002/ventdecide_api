@@ -36,68 +36,69 @@ model User {
 // Tabela de Casos de Estudo
 // ===============================================
 model CaseStudy {
-  id                 Int        @id @default(autoincrement())
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  deletedAt          DateTime?  
-  caseName           String
-  
-  // Relação: Cada caso pertence a UM usuário
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+    id                 Int        @id @default(autoincrement())
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
+    deletedAt          DateTime?  
+    caseName           String
+    
+    // Relação: Cada caso pertence a UM usuário
+    author    User    @relation(fields: [authorId], references: [id])
+    authorId  Int
 
-  // --- Tela: Identificação do Paciente ---
-  patientIdentifier  String
-  birthDate          DateTime?
-  gender             String?
-  principalDiagnosis String?
-  height             Float?
-  previousConditions String[]  
-  otherConditions    String?
-  sedationBlocker    Boolean?
+    // --- Tela: Identificação do Paciente ---
+    patientIdentifier  String
+    birthDate          DateTime?
+    gender             String?
+    principalDiagnosis String?
+    height             Float?
+    previousConditions String[]  
+    otherConditions    String?
+    sedationBlocker    Boolean?
 
-  // --- Tela: Motivos da Intubação ---
-  intubationReasons     String[]  
-  otherIntubationReason String?
+    // --- Tela: Motivos da Intubação ---
+    intubationReasons     String[]  
+    otherIntubationReason String?
 
-  // --- Tela: Gasometria ---
-  // Dados brutos
-  ph                 Float?
-  paco2              Float?
-  pao2               Float?
-  hco3               Float?
-  be                 Float?
-  sao2               Float?
-  na                 Float? // Sódio
-  cl                 Float? // Cloro
-  fio2_gasometry     Float? // FiO2 no momento da gasometria
-  pao2Fio2Ratio      Float?
-  albumin            Float?
-  anionGap           Float?
-  anionGapCorrected  Float?
-  acidBaseStatus     String?
+    // --- Tela: Gasometria ---
+    // Dados brutos
+    ph                 Float?
+    paco2              Float?
+    pao2               Float?
+    hco3               Float?
+    be                 Float?
+    sao2               Float?
+    na                 Float? // Sódio
+    cl                 Float? // Cloro
+    fio2_gasometry     Float? // FiO2 no momento da gasometria
+    pao2Fio2Ratio      Float?
+    albumin            Float?
+    anionGap           Float?
+    anionGapCorrected  Float?
+    acidBaseStatus     String?
 
-  // --- Tela: Parâmetros Ventilatórios ---
-  ventilationMode    String? // VCV, PCV, PSV
-  
-  // Parâmetros VCV
-  vt_vcv             Float? // Volume Corrente
-  flow_vcv           Float? // Fluxo
-  ti_vcv             Float? // Tempo Inspiratório
-  
-  // Parâmetros PCV
-  pip_pcv            Float? // Pressão Inspiratória
-  ti_pcv             Float? // Tempo Inspiratório
-  
-  // Parâmetros PSV
-  ps_psv             Float? // Pressão de Suporte
-  peep_psv           Float? // PEEP específica do modo PSV
-  
-  // Parâmetros Gerais
-  rr                 Float? // Frequência Respiratória
-  peep               Float?
-  fio2_ventilation   Float? // FiO2 nos parâmetros do ventilador
-  trigger            String?
+    // --- Tela: Parâmetros Ventilatórios ---
+    ventilationMode    String? // VCV, PCV, PSV
+    
+    // Parâmetros VCV
+    vt_vcv             Float? // Volume Corrente
+    flow_vcv           Float? // Fluxo
+    ti_vcv             Float? // Tempo Inspiratório
+    
+    // Parâmetros PCV
+    pip_pcv            Float? // Pressão Inspiratória
+    ti_pcv             Float? // Tempo Inspiratório
+    
+    // Parâmetros PSV
+    ps_psv             Float? // Pressão de Suporte
+    peep_psv           Float? // PEEP específica do modo PSV
+    
+    // Parâmetros Gerais
+    rr                 Float? // Frequência Respiratória
+    peep               Float?
+    fio2_ventilation   Float? // FiO2 nos parâmetros do ventilador
+    trigger            String?
 
-  @@unique([authorId, caseName])
+
+    @@unique([authorId, caseName])
 }
