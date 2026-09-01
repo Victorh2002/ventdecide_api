@@ -71,6 +71,8 @@ model CaseStudy {
     na                 Float? // Sódio
     cl                 Float? // Cloro
     fio2_gasometry     Float? // FiO2 no momento da gasometria
+    ppico              Float?
+    pplato             Float?
     pao2Fio2Ratio      Float?
     albumin            Float?
     anionGap           Float?
