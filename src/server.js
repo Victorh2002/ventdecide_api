@@ -9,8 +9,13 @@ const app = express();
 const PORT = 3000; 
 
 app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, '../dashboard/build')));
-app.use(cors());
+//app.use(express.static(path.join(__dirname, '../dashboard/build')));
+app.use(cors({
+    origin: ['https://ventdecide.com.br', 'https://www.ventdecide.com.br'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning']
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {

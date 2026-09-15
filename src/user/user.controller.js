@@ -81,8 +81,15 @@ const loginUsuario = async (req, res) => {
             { expiresIn: '1d' } 
         );
 
-        res.json({ message: 'Login bem-sucedido!', token: token });
-
+        res.status(200)
+        .cookie('access_token', token, { 
+            domain: '.ventdecide.com.br', // O ponto liga a 'api.' com a raiz
+            httpOnly: true, 
+            secure: true, 
+            sameSite: 'lax', // Pode usar lax, já que estão no mesmo domínio raiz
+            maxAge: 86400000 // 1 dia
+        })
+        .json({ message: 'Login bem-sucedido!'});
     } catch (error) {
         res.status(500).json({ error: 'Erro ao fazer login' });
     }
