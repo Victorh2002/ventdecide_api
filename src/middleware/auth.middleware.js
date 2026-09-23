@@ -29,8 +29,7 @@ const authMiddleware = (req, res, next) => {
                 })
                 .json({ error: 'Token inválido ou expirado' });
         }
-
-        console.log(user);
+        
         req.user = user;
 
         next(); 

@@ -83,7 +83,7 @@ const loginUsuario = async (req, res) => {
 
         res.status(200)
         .cookie('access_token', token, { 
-            domain: '.ventdecide.com.br', // O ponto liga a 'api.' com a raiz
+            domain: 'ventdecide.com.br', // O ponto liga a 'api.' com a raiz
             httpOnly: true, 
             secure: true, 
             sameSite: 'lax', // Pode usar lax, já que estão no mesmo domínio raiz
@@ -228,11 +228,28 @@ const resetPassword = async (req, res) => {
     }
 };
 
+const verify = async (req, res) => {
+    res.status(200).json({message: "Usuário verificado!"});
+};
+
+const logoutUsuario = async (req, res) => {
+    return res.status(200)
+            .clearCookie('access_token', { 
+                domain: 'ventdecide.com.br', // O ponto liga a 'api.' com a raiz
+                httpOnly: true, 
+                secure: true, 
+                sameSite: 'lax', // Pode usar lax, já que estão no mesmo domínio raiz
+            })
+            .json({message: 'Usuário deslogado com sucesso'});
+};
+
 module.exports = {
     cadastrarUsuario,
     pesquisarTodosUsuarios,
     pesquisarUsuario,
     loginUsuario,
     forgotPassword,
-    resetPassword 
+    resetPassword,
+    verify,
+    logoutUsuario
 };

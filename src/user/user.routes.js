@@ -20,7 +20,15 @@ router.post("/reset-password", async (req, res) => {
     return await userController.resetPassword(req, res);
 });
 
-router.use(authMiddleware); 
+router.use(authMiddleware);
+
+router.get("/logout", async (req, res) => {
+    return await userController.logoutUsuario(req, res);
+});
+
+router.get("/verify", async (req, res) => {
+    await userController.verify(req, res);
+});
 
 router.get("/todos", async (req, res) => {
     await userController.pesquisarTodosUsuarios(req, res);
